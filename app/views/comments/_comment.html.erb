@@ -1,0 +1,28 @@
+<li>
+  <strong>Commenter:</strong>
+  <%= comment.user.first_name + " " + comment.user.last_name %>
+<p>
+  <strong>Comment:</strong>
+  <%= comment.body %>
+</p>
+<small>Posted <%= time_ago_in_words(comment.created_at) %> ago</small>
+<%= form_for [comment, Comment.new] do |f| %>
+        <%= f.text_area :body, placeholder: "Add a Reply" %><br/>
+        <%= f.submit "Reply"  %>
+        <% end %>
+        <strong>Reacts</strong>
+          <div class= "row">
+            <% React.reactions.keys.each do |reaction| %>
+              <%= button_to "#{reaction} #{comment.reacts.reactions_counts[reaction]}", comment_react_path(comment,reaction: "#{reaction}", method: :post) %>
+            <% end %>
+          </div>
+<br>
+  <% unless comment.comments.empty? %>
+  <ul>
+    <strong>Replies:</strong>
+    <ul>
+      <%= render partial: "comments/comment", collection: comment.comments %>
+    </ul>
+  </ul>
+  <% end %>
+</li>
