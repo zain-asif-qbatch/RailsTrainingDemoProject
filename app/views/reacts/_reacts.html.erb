@@ -1,0 +1,5 @@
+<div id = <%="reacts_#{reactable.class.name}_#{reactable.id}"%> class= "row">
+  <% React.reactions.keys.each do |reaction| %>
+    <%= button_to "#{reaction} #{reactable.reacts.reactions_counts[reaction]}", reacts_path(reaction: "#{reaction}", method: :post), params: { id: reactable.id, type: reactable.class.name }, remote: true %>
+  <% end %>
+</div>

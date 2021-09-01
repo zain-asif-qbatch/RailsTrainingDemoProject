@@ -8,10 +8,24 @@ class CommentsController < ApplicationController
   def create
     @comment = @commentable.comments.new(comment_params)
     @comment.user = current_user
-    if @comment.save
-      redirect_back fallback_location: root_path, notice: 'Your comment was successfully posted!'
-    else
-      redirect_back fallback_location: root_path, notice: "Your comment wasn't posted!"
+    flash[:notice] = if @comment.save
+                       'Your comment was successfully posted!'
+                     else
+                       flash[:notice] = "Your comment wasn't posted!"
+                     end
+    respond_to do |format|
+      format.html { redirect_to root_path }
+      format.js   { }
+    end
+  end
+
+  def destroy
+    @comment = Comment.find(params[:id])
+    @comment.destroy
+    @comment_id = params[:id]
+    respond_to do |format|
+      format.html { redirect_to root_path }
+      format.js   { }
     end
   end
 

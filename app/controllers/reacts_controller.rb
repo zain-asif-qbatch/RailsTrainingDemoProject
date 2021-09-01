@@ -25,8 +25,9 @@ class ReactsController < ApplicationController
       @react = @reactable.reacts.new(reaction: params[:reaction], user_id: current_user.id)
       @react.save
     end
-
-    redirect_back fallback_location: root_path
+    ActionCable.server.broadcast "reacts:all", { reactable: render(
+      partial: 'reacts/reacts', locals: { reactable: @reactable }
+    ), reactable_id: @reactable.id, reactable_type: @reactable.class.name }
   end
 
   def destroy
@@ -37,7 +38,7 @@ class ReactsController < ApplicationController
   protected
 
   def find_reactable
-    @reactable = Comment.find_by_id(params[:comment_id]) if params[:comment_id]
-    @reactable = Post.find_by_id(params[:post_id]) if params[:post_id]
+    @reactable = Comment.find_by_id(params[:id]) if params[:type] == 'Comment'
+    @reactable = Post.find_by_id(params[:id]) if params[:type] == 'Post'
   end
 end

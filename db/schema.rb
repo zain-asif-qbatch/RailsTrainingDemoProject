@@ -24,7 +24,7 @@ ActiveRecord::Schema.define(version: 2021_08_30_100501) do
     t.index ["user_id"], name: "index_comments_on_user_id"
   end
 
-  create_table "followed_users", id: false, force: :cascade do |t|
+  create_table "followed_users", force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "followed_user_id", null: false
     t.datetime "created_at", precision: 6, null: false

@@ -1,6 +1,6 @@
 class CreateFollowedUsers < ActiveRecord::Migration[6.1]
   def change
-    create_table :followed_users, id: false do |t|
+    create_table :followed_users do |t|
       t.references :user, null: false, foreign_key: true
       t.references :followed_user, null: false, foreign_key: { to_table: :users }
 

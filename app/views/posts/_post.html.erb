@@ -6,20 +6,13 @@
 <small>Posted <%= time_ago_in_words(post.created_at) %> ago</small>
 
 <h2>Reacts</h2>
-<div class= "row">
-  <% React.reactions.keys.each do |reaction| %>
-  <%= button_to "#{reaction} #{post.reacts.reactions_counts[reaction]}", post_react_path(post,reaction: "#{reaction}", method: :post) %>
-  <% end %>
-</div>
+<%= render partial: "reacts/reacts", locals: {reactable: post}  %>
 <br>
 
 <h2>Comments</h2>
 <%= render post.comments %>
- 
-<h2>Add a comment:</h2>
-<%= form_for [post, Comment.new] do |f| %>
-    <%= f.text_area :body, placeholder: "Add a comment" %><br/>
-    <%= f.submit "Add Comment" %>
-  <% end %>
+ <div id="add_new_comment"></div>
+<h2 >Add a comment:</h2>
+<%= render partial: 'comments/new_comment', locals: { post: post } %>
  
 <br />

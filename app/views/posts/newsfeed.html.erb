@@ -1,17 +1,21 @@
-<h1>Following</h1>
-
+<strong>Followed Users</strong><br />
+<small>Click on email to unfollow</small>
+<p>
+  <%= render partial: "users/followed_users", collection: @followed_users, as: :user %>
+</p>
 <h1>NewsFeed</h1>
+<br />
 <% if @followed_users.count < 1 %>
-<p>Nothing to show on NewsFeed</p>
+  <p>Nothing to show on NewsFeed</p>
 <% end %>
 <% @followed_users.each do |user| %>
   <% if user.followed_user.posts.count > 0 %>
-    <%= render partial: "post", collection: user.followed_user.posts, as: :post  %>
+    <%= render partial: "post", collection: user.followed_user.posts, as: :post, remote: true  %>
   <% end %>
 <% end %>
 
 <h2>Users you can follow</h2>
 <% if @not_followed_users.count < 1 %>
-<p>No one to follow!</p>
+  <p>No one to follow!</p>
 <% end %>
 <%= render partial: "users/user", collection: @not_followed_users, as: :user %>

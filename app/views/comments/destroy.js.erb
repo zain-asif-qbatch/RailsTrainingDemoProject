@@ -1,0 +1,6 @@
+<% if @comment.class.name == 'Comment' %>
+  $('#'+ <%= @comment_id %>).fadeOut();
+  $('#comment'+ <%= @comment_id %>).fadeOut();
+<% elsif @comment.class.name == 'Post' %>
+  $('#comment'+ <%= @comment_id %>).fadeOut();
+<% end %>

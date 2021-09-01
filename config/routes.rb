@@ -3,22 +3,24 @@
 Rails.application.routes.draw do
   root to: redirect('newsfeed')
 
-  resources :comments, only: :index do
-    post '/comments', to: 'comments#create'
-    post '/reacted/', to: 'reacts#create', as: 'react'
+  resources :comments, only: %i[index destroy] do
+    resources :comments, only: :create
   end
 
   get '/newsfeed', to: 'posts#newsfeed'
 
   resources :posts do
-    resources :comments
-    post '/reacted/', to: 'reacts#create', as: 'react'
+    resources :comments, only: :create
   end
 
-  devise_for :users, controllers: { registrations: 'users/registrations' }
+  resources :reacts, only: :create
 
-  post 'user/:user_id/follow',to: 'users#create_follow', as: 'follow_user'
+  devise_for :users, controllers: { registrations: 'users/registrations', sessions: 'users/sessions' }
 
+  resources :users do
+    post '/follow', to: 'users#create_follow', as: 'follow'
+    delete '/unfollow', to: 'users#destroy_follow', as: 'unfollow', defaults: { format: 'js' }
+  end
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 
   get '*unknown_path', to: 'application#page_not_found', code: 404

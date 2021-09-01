@@ -8,4 +8,5 @@ class React < ApplicationRecord
   validates :reaction, presence: true
 
   scope :reactions_counts, -> { group(:reaction).count }
+
 end
