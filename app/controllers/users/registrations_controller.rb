@@ -12,7 +12,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # POST /resource
   def create
     super
-    cookies.encrypted[:user_id] = current_user.id
+    cookies.encrypted[:user_id] = current_user.id if current_user
   end
 
   # GET /resource/edit

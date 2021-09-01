@@ -1,1 +1,3 @@
-<%= link_to "#{user.followed_user.email}", user_unfollow_url(user.followed_user), method: :delete, data: { confirm: 'Are you sure?' } %> 
+<% unless user.id == current_user.id %>
+  <%= link_to "#{user.email}", user_unfollow_url(user), method: :delete, data: { confirm: 'Are you sure?' } %> 
+<% end %>

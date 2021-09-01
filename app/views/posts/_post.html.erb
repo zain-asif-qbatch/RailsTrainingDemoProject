@@ -1,4 +1,4 @@
-<h1><%= "Title: #{post.title}" %></h1>
+<h1><%= "Title: #{post.title} By #{post.user.email}" %></h1>
 <h2>
   <strong>Content:</strong>
 </h2>
@@ -8,7 +8,10 @@
 <h2>Reacts</h2>
 <%= render partial: "reacts/reacts", locals: {reactable: post}  %>
 <br>
-
+<% if post.user.id == current_user.id %>
+  <%= link_to 'Edit Post', edit_post_path(post) %>
+  <%= link_to 'Delete Post', post, method: :delete, data: { confirm: 'Are you sure?' } %>
+<% end %>
 <h2>Comments</h2>
 <%= render post.comments %>
  <div id="add_new_comment"></div>

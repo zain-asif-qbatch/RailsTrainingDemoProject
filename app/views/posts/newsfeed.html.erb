@@ -4,13 +4,14 @@
   <%= render partial: "users/followed_users", collection: @followed_users, as: :user %>
 </p>
 <h1>NewsFeed</h1>
+<%= link_to 'New Post', new_post_path %>
 <br />
 <% if @followed_users.count < 1 %>
   <p>Nothing to show on NewsFeed</p>
 <% end %>
 <% @followed_users.each do |user| %>
-  <% if user.followed_user.posts.count > 0 %>
-    <%= render partial: "post", collection: user.followed_user.posts, as: :post, remote: true  %>
+  <% if user.posts.count > 0 %>
+    <%= render partial: "post", collection: user.posts, as: :post, remote: true  %>
   <% end %>
 <% end %>
 

@@ -6,7 +6,7 @@ class PostsController < ApplicationController
   # end
 
   def newsfeed
-    @followed_users = current_user.followed_users
+    @followed_users = User.where(id: current_user.followed_users.pluck(:followed_user_id).push(current_user.id))
     @not_followed_users = User.where.not(id: current_user.followed_users.pluck(:followed_user_id).push(current_user.id))
   end
 
@@ -27,7 +27,7 @@ class PostsController < ApplicationController
     @post = Post.new(post_params)
     @post.user = current_user
     if @post.save
-      redirect_to @post, notice: 'Your post was successfully created.'
+      redirect_to root_path, notice: 'Your post was successfully created.'
     else
       render :new, status: :unprocessable_entity
     end
@@ -36,7 +36,7 @@ class PostsController < ApplicationController
   # PATCH/PUT /posts/1 or /posts/1.json
   def update
     if @post.update(post_params)
-      redirect_to @post, notice: 'Your post was successfully updated.' 
+      redirect_back fallback_location: root_path, notice: 'Your post was successfully updated.' 
     else
       render :edit, status: :unprocessable_entity
     end
@@ -45,7 +45,7 @@ class PostsController < ApplicationController
   # DELETE /posts/1 or /posts/1.json
   def destroy
     @post.destroy
-    redirect_to posts_url, notice: 'Your post was successfully destroyed.'
+    redirect_to root_path, notice: 'Your post was successfully destroyed.'
   end
 
   private
