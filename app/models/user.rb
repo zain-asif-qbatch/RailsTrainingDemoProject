@@ -12,6 +12,8 @@ class User < ApplicationRecord
 
   has_many :posts, dependent: :destroy
   has_many :followed_users, dependent: :destroy
+  has_many :reacts, as: :reactable, dependent: :destroy
+  has_many :comments, as: :commentable, dependent: :destroy
 
   scope :not_followed_users, -> { where.not(id: [followed_users]) }
 
