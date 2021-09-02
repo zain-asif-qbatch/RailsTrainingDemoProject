@@ -1,0 +1,6 @@
+<div id = <%= "new_comment#{post.id}" %>>
+<%= form_for [post, Comment.new], remote: true do |f| %>
+  <%= f.text_area :body, placeholder: "Add a comment" %><br/>
+  <%= f.submit "Add Comment" %>
+<% end %>
+</div>

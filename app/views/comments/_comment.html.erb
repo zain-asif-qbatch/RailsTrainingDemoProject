@@ -1,0 +1,21 @@
+<ul id= <%= "comment#{comment.id}" %>>
+  <li>
+      <strong>Commenter:</strong>
+      <%= comment.user.first_name + " " + comment.user.last_name %>
+      <p>
+        <strong>Comment:</strong>
+        <%= comment.body %>
+      </p>
+      <small>Posted <%= time_ago_in_words(comment.created_at) %> ago</small>
+
+      <%= render partial: 'comments/new_reply', locals: { comment: comment } %>
+      <strong>Reacts</strong>
+        <%= render partial: "reacts/reacts", locals: {reactable: comment}  %>
+      <br>
+
+      <% unless comment.comments.empty? %>
+        <strong id = <%="#{comment.id}"%>>Replies:</strong>
+          <%= render partial: "comments/comment", collection: comment.comments %>
+  <% end %>
+  </li>
+</ul>

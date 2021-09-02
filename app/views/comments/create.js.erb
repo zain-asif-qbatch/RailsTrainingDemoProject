@@ -1,0 +1,8 @@
+<% if @commentable.class.name == 'Comment' %>
+  $('#comment'+ <%= @commentable.id %>).append("<strong id='" + <%= @comment.id %> + "'>Replies:</strong><%=j render(@comment) %>");
+  $('#new_'+ <%= @commentable.id %>).replaceWith("<%=j render partial: 'comments/new_reply', locals: { comment: @commentable } %>");
+<% elsif @commentable.class.name == 'Post' %>
+  console.log(<%= @commentable.id %>);
+  $('#add_new_comment').append("<%=j render(@comment) %>");
+  $('#new_comment'+ <%= @commentable.id %>).replaceWith("<%=j render partial: 'comments/new_comment', locals: { post: @commentable } %>");
+<% end %>
