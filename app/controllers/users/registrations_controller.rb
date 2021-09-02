@@ -28,10 +28,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # DELETE /resource
   def destroy
     cookies.encrypted[:user_id] = nil
-    FollowedUser.where(user_id: current_user.id).destroy_all
     FollowedUser.where(followed_user_id: current_user.id).destroy_all
-    React.where(user_id: current_user.id).destroy_all
-    Comment.where(user_id: current_user.id).destroy_all
     super
   end
 
